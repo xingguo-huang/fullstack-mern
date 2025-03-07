@@ -3,3 +3,4 @@ back-end/.env
 front-end/.env
 back-end/credentials.json
 back-end/dist
+back-end/prod-env.yaml
