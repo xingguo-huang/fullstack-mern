@@ -1,6 +1,5 @@
 # Full-Stack MERN Application
 
-![MERN Stack](https://miro.medium.com/v2/resize:fit:1200/format:webp/1*0g1g0g1g0g1g0g1g0g1g0g.png)
 
 ## Overview
 
@@ -81,15 +80,3 @@ This is a powerful and interactive full-stack web application built using the ME
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any inquiries or feedback, feel free to reach out to me at [your-email@example.com](mailto:your-email@example.com).
-
----
-
-By showcasing your skills and the technologies used in this project, you can make a strong impression on recruiters and potential employers. Good luck!
