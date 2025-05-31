@@ -8,6 +8,8 @@ import fs from 'fs';
 import path from 'path';
 
 import { fileURLToPath } from 'url';
+import lessonPlanRoutes from './routes/lessonPlanRoutes.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -105,6 +107,9 @@ app.post('/api/articles/:name/comments', async (req, res) => {
 
   res.json(updatedArticle);
 });
+
+// Add the lesson plan routes
+app.use('/api/lesson-plan', lessonPlanRoutes);
 
 const PORT = process.env.PORT || 8000;
 
