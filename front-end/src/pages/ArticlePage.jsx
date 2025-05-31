@@ -1,52 +1,54 @@
-import { useState } from 'react';
-import { useParams, useLoaderData } from 'react-router-dom';
-import axios from 'axios';
-import CommentsList from '../CommentsList';
-import AddCommentForm from '../AddCommentForm';
-import articles from '../article-content';
-import useUser from '../useUser';
+import { useLoaderData, useParams } from 'react-router-dom';
+import { useUser } from '../hooks/useUser';
 
 export default function ArticlePage() {
-  const { name } = useParams();
-  const { upvotes: initialUpvotes, comments: initialComments } = useLoaderData();
-  const [upvotes, setUpvotes] = useState(initialUpvotes);
-  const [comments, setComments] = useState(initialComments);
+    const { user } = useUser();
+    const { articleId } = useParams();
+    const articleData = useLoaderData();
+    
+    // Handle case when article data is not available
+    if (!articleData) {
+        return (
+            <div className="text-center py-8">
+                <h2 className="text-2xl font-bold text-gray-800">Article Not Found</h2>
+                <p className="mt-2 text-gray-600">The article you're looking for doesn't exist or you don't have permission to view it.</p>
+            </div>
+        );
+    }
 
-  const { isLoading, user } = useUser();
+    const { upvotes = 0, comments = [] } = articleData;
 
-  const article = articles.find(a => a.name === name);
+    return (
+        <div className="max-w-4xl mx-auto">
+            <h1 className="text-3xl font-bold mb-4">{articleData.title}</h1>
+            <div className="prose max-w-none">
+                {articleData.content}
+            </div>
+            
+            {/* Upvote section */}
+            <div className="mt-8">
+                <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    onClick={async () => {
+                        // Your upvote logic here
+                    }}
+                >
+                    👍 Upvote ({upvotes})
+                </button>
+            </div>
 
-  async function onUpvoteClicked() {
-    const token = user && await user.getIdToken();
-    const headers = token ? { authtoken: token } : {};
-    const response = await axios.post('/api/articles/' + name + '/upvote', null, { headers });
-    const updatedArticleData = response.data;
-    setUpvotes(updatedArticleData.upvotes);
-  }
-
-  async function onAddComment({ nameText, commentText }) {
-    const token = user && await user.getIdToken();
-    const headers = token ? { authtoken: token } : {};
-    const response = await axios.post('/api/articles/' + name + '/comments', {
-      postedBy: nameText,
-      text: commentText,
-    }, { headers });
-    const updatedArticleData = response.data;
-    setComments(updatedArticleData.comments);
-  }
-
-  return (
-    <>
-    <h1>{article.title}</h1>
-    {user && <button onClick={onUpvoteClicked}>Upvote</button>}
-    <p>This article has {upvotes} upvotes</p>
-    {article.content.map(p => <p key={p}>{p}</p>)}
-    {user
-      ? <AddCommentForm onAddComment={onAddComment} />
-      : <p>Log in to add a comment</p>}
-    <CommentsList comments={comments} />
-    </>
-  );
+            {/* Comments section */}
+            <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Comments</h2>
+                {comments.map((comment, index) => (
+                    <div key={index} className="border-b py-4">
+                        <p className="text-gray-600">{comment.content}</p>
+                        <p className="text-sm text-gray-400">By {comment.author}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export async function loader({ params }) {

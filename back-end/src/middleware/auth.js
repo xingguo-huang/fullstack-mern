@@ -8,8 +8,8 @@ export const authenticateUser = async (req, res, next) => {
             return res.status(401).json({ error: 'No auth token provided' });
         }
 
-        const user = await admin.auth().verifyIdToken(authtoken);
-        req.user = user;
+        const decodedToken = await admin.auth().verifyIdToken(authtoken);
+        req.user = decodedToken;
         next();
     } catch (error) {
         console.error('Error authenticating user:', error);

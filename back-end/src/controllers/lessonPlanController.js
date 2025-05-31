@@ -18,24 +18,42 @@ export const generateLessonPlan = async (req, res) => {
             reference_context
         } = req.body;
 
+        // Validate required fields
+        if (!grade_level || !topic || !duration || !style || style.length === 0) {
+            return res.status(400).json({ 
+                error: 'Missing required fields',
+                details: {
+                    grade_level: !grade_level,
+                    topic: !topic,
+                    duration: !duration,
+                    style: !style || style.length === 0
+                }
+            });
+        }
+
         const llm = get_llm();
         const chain = create_broad_plan_draft_chain(llm);
         
+        // Format the data for the chain
         const result = await chain.call({
             grade_level,
             topic,
             duration,
-            style,
-            learning_objectives,
-            requirements,
-            reference_context,
-            broad_plan_feedback: ""
+            style: Array.isArray(style) ? style.join(', ') : style,
+            learning_objectives: learning_objectives || '',
+            requirements: requirements || '',
+            broad_plan_feedback: '',
+            reference_context: reference_context || ''
         });
 
+        // Send the response
         res.json(result);
     } catch (error) {
         console.error('Error generating lesson plan:', error);
-        res.status(500).json({ error: 'Failed to generate lesson plan' });
+        res.status(500).json({ 
+            error: 'Failed to generate lesson plan',
+            details: error.message 
+        });
     }
 };
 
