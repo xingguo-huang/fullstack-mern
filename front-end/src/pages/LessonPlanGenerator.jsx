@@ -1,6 +1,5 @@
-import { useState } from 'react';
-// import { useUser } from '../useUser';
-import useUser from '../useUser';
+import { useState } from 'react';// import { useUser } from '../useUser';
+import { useUser } from '../hooks/useUser';
 
 // Constants
 const GRADE_LEVELS = [

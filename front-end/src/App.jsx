@@ -6,7 +6,6 @@ import './App.css'
 import HomePage from './pages/HomePage'
 import ArticlesListPage from './pages/ArticlesListPage';
 import ArticlePage, { loader as articleLoader } from './pages/ArticlePage';
-import Layout from './Layout';
 import NotFoundPage from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
 import CreateAccountPage from './pages/CreateAccountPage';
@@ -20,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: 'articles', element: <ArticlesListPage /> },
-      { path: 'articles/:articleId', element: <ArticlePage /> },
+      { path: 'articles/:articleId', element: <ArticlePage />, loader: articleLoader},
       { path: 'login', element: <LoginPage /> },
       { path: 'create-account', element: <CreateAccountPage /> },
       { path: 'lesson-plan', element: <LessonPlanGenerator /> },

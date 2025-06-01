@@ -36,8 +36,8 @@ export default function NavBar() {
                         <div className="flex items-center space-x-4">
                             {user ? (
                                 <div className="flex items-center space-x-4">
-                                    <span className="text-gray-600">
-                                        {user.email}
+                                    <span className="text-sm text-blue-700 font-medium">
+                                        Logged in as {user.email}
                                     </span>
                                     <button
                                         onClick={handleLogout}

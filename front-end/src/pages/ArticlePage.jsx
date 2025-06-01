@@ -1,5 +1,7 @@
 import { useLoaderData, useParams } from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
+import axios from 'axios'; // Add this import
+import articles from '../article-content.js'; // Add this import
 
 export default function ArticlePage() {
     const { user } = useUser();
@@ -22,7 +24,12 @@ export default function ArticlePage() {
         <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold mb-4">{articleData.title}</h1>
             <div className="prose max-w-none">
-                {articleData.content}
+                {Array.isArray(articleData.content) ? 
+                    articleData.content.map((paragraph, i) => (
+                        <p key={i} className="mb-4">{paragraph}</p>
+                    )) : 
+                    articleData.content
+                }
             </div>
             
             {/* Upvote section */}
@@ -52,7 +59,38 @@ export default function ArticlePage() {
 }
 
 export async function loader({ params }) {
-  const response = await axios.get('/api/articles/' + params.name);
-  const { upvotes, comments } = response.data;
-  return { upvotes, comments };
+  try {
+    // Get static article content
+    const articleContent = articles.find(article => article.name === params.articleId);
+    
+    if (!articleContent) {
+      return null;
+    }
+    
+    // Get dynamic data (upvotes, comments)
+    const response = await axios.get(`/api/articles/${params.articleId}`);
+    
+    // If the article exists in MongoDB, merge the data
+    if (response.data) {
+      const { upvotes, comments } = response.data;
+      return {
+        ...articleContent,
+        upvotes,
+        comments
+      };
+    } 
+    // If article doesn't exist in MongoDB yet, return just the content
+    else {
+      return {
+        ...articleContent,
+        upvotes: 0,
+        comments: []
+      };
+    }
+  } catch (error) {
+    console.error('Error loading article:', error);
+    // Return static content if API request fails
+    const articleContent = articles.find(article => article.name === params.articleId);
+    return articleContent ? { ...articleContent, upvotes: 0, comments: [] } : null;
+  }
 }
