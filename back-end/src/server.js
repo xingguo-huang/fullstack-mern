@@ -75,7 +75,17 @@ app.post('/api/articles/:name/upvote', async (req, res) => {
   const { name } = req.params;
   const { uid } = req.user;
 
-  const article = await db.collection('articles').findOne({ name });
+  let article = await db.collection('articles').findOne({ name });
+
+  if (!article) {
+    await db.collection('articles').insertOne({
+      name,
+      upvotes: 0,
+      comments: [],
+      upvoteIds: [],
+    });
+    article = { upvoteIds: [] };
+  }
 
   const upvoteIds = article.upvoteIds || [];
   const canUpvote = uid && !upvoteIds.includes(uid);
@@ -98,6 +108,17 @@ app.post('/api/articles/:name/comments', async (req, res) => {
   const { name } = req.params;
   const { postedBy, text } = req.body;
   const newComment = { postedBy, text };
+
+  let article = await db.collection('articles').findOne({ name });
+
+  if (!article) {
+    await db.collection('articles').insertOne({
+      name,
+      upvotes: 0,
+      comments: [],
+      upvoteIds: [],
+    });
+  }
 
   const updatedArticle = await db.collection('articles').findOneAndUpdate({ name }, {
     $push: { comments: newComment }
