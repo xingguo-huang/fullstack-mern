@@ -1,75 +1,21 @@
 const articles = [
     {
-        name: 'learn-react',
-        title: 'The Fastest Way to Learn React',
+        name: 'five-strategies',
+        title: 'The Five strategies of Teaching',
         content: [
-            `Welcome! Today we're going to be talking about the fastest way to
-            learn React. We'll be discussing some topics such as proin congue
-            ligula id risus posuere, vel eleifend ex egestas. Sed in turpis leo. 
-            Aliquam malesuada in massa tincidunt egestas. Nam consectetur varius turpis, 
-            non porta arcu porttitor non. In tincidunt vulputate nulla quis egestas. Ut 
-            eleifend ut ipsum non fringilla. Praesent imperdiet nulla nec est luctus, at 
-            sodales purus euismod.`,
-            `Donec vel mauris lectus. Etiam nec lectus urna. Sed sodales ultrices dapibus. 
-            Nam blandit tristique risus, eget accumsan nisl interdum eu. Aenean ac accumsan 
-            nisi. Nunc vel pulvinar diam. Nam eleifend egestas viverra. Donec finibus lectus 
-            sed lorem ultricies, eget ornare leo luctus. Morbi vehicula, nulla eu tempor 
-            interdum, nibh elit congue tellus, ac vulputate urna lorem nec nisi. Morbi id 
-            consequat quam. Vivamus accumsan dui in facilisis aliquet.`,
-            `Etiam nec lectus urna. Sed sodales ultrices dapibus. 
-            Nam blandit tristique risus, eget accumsan nisl interdum eu. Aenean ac accumsan 
-            nisi. Nunc vel pulvinar diam. Nam eleifend egestas viverra. Donec finibus lectus 
-            sed lorem ultricies, eget ornare leo luctus. Morbi vehicula, nulla eu tempor 
-            interdum, nibh elit congue tellus, ac vulputate urna lorem nec nisi. Morbi id 
-            consequat quam. Vivamus accumsan dui in facilisis aliquet.`,
+            `Faculty members seldom rely on a single approach; instead, they blend five recurring teaching styles—Expert, Formal Authority, Personal Model, Facilitator, and Delegator. The Expert emphasizes deep subject knowledge, challenging students to master facts and theories. The Formal Authority clarifies rules, standards, and correct procedures, keeping a firm grip on classroom order. Acting as a Personal Model, a teacher demonstrates “how to think and do,” inviting students to imitate problem-solving moves. The Facilitator guides by questioning, encouraging exploration and self-evaluation, while the Delegator pushes learners toward autonomous projects and peer collaboration. Seeing these styles as colors on an artist’s palette, Anthony Grasha argues that effective instructors mix them rather than box themselves into one identity.`,
         ]
     },    {
-        name: 'learn-node',
-        title: 'How to Build a Node Server in 10 Minutes',
+        name: 'context-matters',
+        title: 'Why Context Matters More Than Preference',
         content: [
-            `In this article, we're going to be talking looking at a very quick way
-            to set up a Node.js server. We'll be discussing some topics such as proin congue
-            ligula id risus posuere, vel eleifend ex egestas. Sed in turpis leo. 
-            Aliquam malesuada in massa tincidunt egestas. Nam consectetur varius turpis, 
-            non porta arcu porttitor non. In tincidunt vulputate nulla quis egestas. Ut 
-            eleifend ut ipsum non fringilla. Praesent imperdiet nulla nec est luctus, at 
-            sodales purus euismod.`,
-            `Donec vel mauris lectus. Etiam nec lectus urna. Sed sodales ultrices dapibus. 
-            Nam blandit tristique risus, eget accumsan nisl interdum eu. Aenean ac accumsan 
-            nisi. Nunc vel pulvinar diam. Nam eleifend egestas viverra. Donec finibus lectus 
-            sed lorem ultricies, eget ornare leo luctus. Morbi vehicula, nulla eu tempor 
-            interdum, nibh elit congue tellus, ac vulputate urna lorem nec nisi. Morbi id 
-            consequat quam. Vivamus accumsan dui in facilisis aliquet.`,
-            `Etiam nec lectus urna. Sed sodales ultrices dapibus. 
-            Nam blandit tristique risus, eget accumsan nisl interdum eu. Aenean ac accumsan 
-            nisi. Nunc vel pulvinar diam. Nam eleifend egestas viverra. Donec finibus lectus 
-            sed lorem ultricies, eget ornare leo luctus. Morbi vehicula, nulla eu tempor 
-            interdum, nibh elit congue tellus, ac vulputate urna lorem nec nisi. Morbi id 
-            consequat quam. Vivamus accumsan dui in facilisis aliquet.`,
+            `Grasha’s workshop data show that teachers don’t pick styles only because they “like” them; contextual pressures steer the choice. Large, required freshman courses typically nudge instructors toward an Expert/Formal Authority blend—coverage goals, time limits, and standardized exams reward lecture and strict control. Upper-level or graduate seminars, by contrast, favor Facilitator and Delegator modes because students arrive with stronger content knowledge and a readiness for independent inquiry. Class size, disciplinary norms, risk tolerance, and even departmental expectations all act as silent governors on stylistic freedom. Recognizing these constraints helps faculty diagnose when a strategy feels natural and when resistance signals a clash with situational demands rather than personal ineptitude.`,
         ]
     },     {
-        name: 'mongodb',
-        title: 'Learn MongoDB',
+        name: 'moving-from-control-to-collaboration',
+        title: 'Moving from Control to Collaboration',
         content: [
-            `Today is the day I talk about something which scares most people: resumes.
-            In reality, I'm not sure why people have such a hard time with proin congue
-            ligula id risus posuere, vel eleifend ex egestas. Sed in turpis leo. 
-            Aliquam malesuada in massa tincidunt egestas. Nam consectetur varius turpis, 
-            non porta arcu porttitor non. In tincidunt vulputate nulla quis egestas. Ut 
-            eleifend ut ipsum non fringilla. Praesent imperdiet nulla nec est luctus, at 
-            sodales purus euismod.`,
-            `Donec vel mauris lectus. Etiam nec lectus urna. Sed sodales ultrices dapibus. 
-            Nam blandit tristique risus, eget accumsan nisl interdum eu. Aenean ac accumsan 
-            nisi. Nunc vel pulvinar diam. Nam eleifend egestas viverra. Donec finibus lectus 
-            sed lorem ultricies, eget ornare leo luctus. Morbi vehicula, nulla eu tempor 
-            interdum, nibh elit congue tellus, ac vulputate urna lorem nec nisi. Morbi id 
-            consequat quam. Vivamus accumsan dui in facilisis aliquet.`,
-            `Etiam nec lectus urna. Sed sodales ultrices dapibus. 
-            Nam blandit tristique risus, eget accumsan nisl interdum eu. Aenean ac accumsan 
-            nisi. Nunc vel pulvinar diam. Nam eleifend egestas viverra. Donec finibus lectus 
-            sed lorem ultricies, eget ornare leo luctus. Morbi vehicula, nulla eu tempor 
-            interdum, nibh elit congue tellus, ac vulputate urna lorem nec nisi. Morbi id 
-            consequat quam. Vivamus accumsan dui in facilisis aliquet.`,
+            `Transitioning from lecture dominance to student-centered methods need not mean “losing control.” Grasha recommends reframing control as structure with shared ownership: set explicit agendas, assign rotating roles (recorder, time-keeper, devil’s advocate), and make groups accountable through public summaries or graded artifacts. Capability is not fixed; instructors can build it by steadily increasing task complexity—first model, then coach, then delegate. When introducing debates, role-plays, or independent studies, provide clear rationales, scaffolding, and close monitoring to prevent frustration. Gradual shifts, transparent expectations, and deliberate skill-building turn potential chaos into collaborative energy, allowing faculty to inhabit Facilitator and Delegator roles without sacrificing academic rigor.`,
         ]
     },  
 ];
