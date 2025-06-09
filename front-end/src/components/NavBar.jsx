@@ -1,10 +1,12 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useRouteError } from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
+import NotFoundPage from '../pages/NotFoundPage';
 
 export default function NavBar() {
     const { user, logout } = useUser();
     const navigate = useNavigate();
-
+    const error = useRouteError(); // 获取路由错误
+    
     const handleLogout = async () => {
         try {
             await logout();
@@ -32,7 +34,7 @@ export default function NavBar() {
                             </Link>
                         </div>
 
-                        {/* Right side authentication */}
+                        {/* Right side */}
                         <div className="flex items-center space-x-4">
                             {user ? (
                                 <div className="flex items-center space-x-4">
@@ -67,7 +69,7 @@ export default function NavBar() {
                 </div>
             </nav>
             <main className="container mx-auto px-4 py-8">
-                <Outlet />
+                {error ? <NotFoundPage /> : <Outlet />}
             </main>
         </div>
     );

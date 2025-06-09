@@ -16,6 +16,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <NavBar />,
+    errorElement: <NotFoundPage />,
     children: [
       { index: true, element: <HomePage /> },
       { path: 'articles', element: <ArticlesListPage /> },
@@ -23,16 +24,13 @@ const router = createBrowserRouter([
       { path: 'login', element: <LoginPage /> },
       { path: 'create-account', element: <CreateAccountPage /> },
       { path: 'lesson-plan', element: <LessonPlanGenerator /> },
+      { path: '*', element: <NotFoundPage /> }
     ],
   },
 ]);
 
 function App() {
-  return (
-    <>
-    <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App
