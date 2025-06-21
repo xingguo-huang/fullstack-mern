@@ -64,11 +64,23 @@ export default function LessonPlanGenerator() {
                 throw new Error('Please fill in all required fields');
             }
 
-            const response = await fetch('http://localhost:8000/api/lesson-plan/generate', {
+            // Make sure user is authenticated
+            if (!user) {
+                throw new Error('You must be logged in to generate a lesson plan');
+            }
+
+            // Get auth token safely
+            const token = await user.getIdToken().catch(error => {
+                console.error('Error getting auth token:', error);
+                throw new Error('Authentication error - please try logging in again');
+            });
+
+            // Use relative URL to work with the Vite proxy
+            const response = await fetch('/api/lesson-plan/generate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'authtoken': await user.getIdToken()
+                    'authtoken': token
                 },
                 body: JSON.stringify(formData)
             });
@@ -93,15 +105,76 @@ export default function LessonPlanGenerator() {
         if (!plan) return null;
 
         try {
+            // First, add debug information to see the raw response
+            console.log("Raw response:", plan);
+            
             // Handle different response formats
             let planData = plan;
+            
+            // If the plan is a string, try to parse it as JSON
             if (typeof plan === 'string') {
-                planData = JSON.parse(plan);
+                try {
+                    planData = JSON.parse(plan);
+                } catch (error) {
+                    console.error("Failed to parse plan as JSON string:", error);
+                }
             }
-
-            // Extract the actual plan content
+            
+            // Extract from nested broad_plan_draft if present
+            if (planData.broad_plan_draft) {
+                // Get the string content
+                let contentStr = planData.broad_plan_draft;
+                
+                // Try multiple extraction strategies
+                try {
+                    // Strategy 1: Direct JSON parsing
+                    try {
+                        const directParse = JSON.parse(contentStr);
+                        planData = directParse;
+                        console.log("Strategy 1 succeeded - direct parse");
+                    } catch (error) {
+                        // Strategy 2: Extract from markdown code blocks
+                        const codeBlockMatch = contentStr.match(/```(?:json)?\s*({[\s\S]*?})\s*```/);
+                        if (codeBlockMatch && codeBlockMatch[1]) {
+                            const jsonFromCodeBlock = JSON.parse(codeBlockMatch[1]);
+                            planData = jsonFromCodeBlock;
+                            console.log("Strategy 2 succeeded - extracted from code block");
+                        } else {
+                            // Strategy 3: Find any JSON-like structure between braces
+                            const jsonMatch = contentStr.match(/{[\s\S]*"broad_plan"[\s\S]*?objectives[\s\S]*?outline[\s\S]*}/);
+                            if (jsonMatch) {
+                                const extractedJson = JSON.parse(jsonMatch[0]);
+                                planData = extractedJson;
+                                console.log("Strategy 3 succeeded - regex extraction");
+                            }
+                        }
+                    }
+                } catch (extractError) {
+                    console.error("All extraction strategies failed:", extractError);
+                }
+            }
+            
+            // Log the processed data
+            console.log("Processed plan data:", planData);
+            
+            // Try multiple possible data structures
             const broadPlan = planData.broad_plan || planData.broad_plan_draft || planData;
             
+            // If we don't have the expected structure, show the raw JSON
+            if (!broadPlan.objectives && !broadPlan.outline) {
+                return (
+                    <div>
+                        <p className="mb-4 text-amber-600 font-semibold">
+                            Note: Response format was different than expected. Displaying raw data:
+                        </p>
+                        <pre className="bg-gray-100 p-4 rounded-lg overflow-auto">
+                            {JSON.stringify(planData, null, 2)}
+                        </pre>
+                    </div>
+                );
+            }
+            
+            // Original render logic for correct format
             return (
                 <div className="space-y-6">
                     {/* Learning Objectives */}
@@ -146,9 +219,12 @@ export default function LessonPlanGenerator() {
         } catch (error) {
             console.error('Error formatting plan:', error);
             return (
-                <pre className="bg-gray-100 p-4 rounded-lg overflow-auto">
-                    {JSON.stringify(plan, null, 2)}
-                </pre>
+                <div>
+                    <p className="mb-4 text-red-600 font-semibold">Error formatting plan data:</p>
+                    <pre className="bg-gray-100 p-4 rounded-lg overflow-auto">
+                        {JSON.stringify(plan, null, 2)}
+                    </pre>
+                </div>
             );
         }
     };
@@ -248,9 +324,9 @@ export default function LessonPlanGenerator() {
                                     className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
                                     rows="4"
                                     placeholder="Example:
-1. Write a simple Python program to print a message
-2. Understand the basic concepts of data types
-3. Apply loops to solve problems"
+                                        1. Write a simple Python program to print a message
+                                        2. Understand the basic concepts of data types
+                                        3. Apply loops to solve problems"
                                 />
                             </div>
                         )}
@@ -274,9 +350,9 @@ export default function LessonPlanGenerator() {
                                     className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
                                     rows="4"
                                     placeholder="Example:
-- Group discussion required
-- Include a quiz at the end
-- Use a specific textbook"
+                                        - Group discussion required
+                                        - Include a quiz at the end
+                                        - Use a specific textbook"
                                 />
                             </div>
                         )}
@@ -342,4 +418,4 @@ export default function LessonPlanGenerator() {
             )}
         </div>
     );
-} 
+}
