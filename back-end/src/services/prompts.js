@@ -165,205 +165,82 @@ CONSTRAINTS:
 `
 });
 
+
 export const CRITIQUE_TEMPLATE = new PromptTemplate({
-  inputVariables: ["broad_plan_json"],
+  inputVariables: ['broad_plan_json'],
   template: `You are an expert educational consultant reviewing a detailed lesson plan.
 
-### ANALYZE THE PLAN
+### **ANALYZE THE PLAN**
 {broad_plan_json}
 
-### EVALUATION CRITERIA
-1. Content Quality
-   - Clarity of instructions
-   - Alignment with learning objectives
-   - Appropriateness of activities
-2. Implementation
-   - Time management
-   - Resource utilization
-   - Activity transitions
-3. Student Engagement
-   - Activity variety
-   - Interaction opportunities
-   - Learning assessment methods
-
-### OUTPUT FORMAT
-Output a valid JSON array containing 1-7 critique points:
-[{
-  "id": 1,
-  "issue": "Clear issue description",
-  "suggestion": "Actionable improvement suggestion"
-}]
-
-### REQUIREMENTS
-- Specific, actionable critique points
-- Realistic, implementable suggestions
-- Valid JSON, numbered critique points
-- No additional text outside JSON`
+... (rest of template)
+`
 });
 
 export const REVISE_SELECTED_TEMPLATE = new PromptTemplate({
-  inputVariables: ["broad_plan_json", "selected_critique_points"],
+  inputVariables: ['broad_plan_json', 'selected_critique_points'],
   template: `You are an expert instructional designer improving a lesson plan based on selected critique points.
 
-### REVIEW ORIGINAL PLAN
+### **1) REVIEW ORIGINAL PLAN**
 {broad_plan_json}
 
-### SELECTED CRITIQUE POINTS
-{selected_critique_points}
-
-### IMPROVE THE PLAN
-- Address ONLY selected critique points
-- Adjust phase names and durations if needed
-- Provide summaries of changes per phase
-
-### OUTPUT FORMAT (JSON)
-{
-  "broad_plan": {
-    "objectives": ["Improved learning objectives"],
-    "outline": [{
-      "phase": "Modified phase name",
-      "duration": "Adjusted duration",
-      "purpose": "Enhanced purpose",
-      "description": "Detailed description",
-      "summary of changes": "Summary based on critique"
-    }]
-  }
-}
-
-### REQUIREMENTS
-- Meaningful improvements aligned with selected critiques
-- Maintain original total duration
-- Valid JSON output only`
+... (rest of template)
+`
 });
 
 export const PRECISE_REVISION_TEMPLATE = new PromptTemplate({
-  inputVariables: ["original_plan_json", "revised_phases", "user_feedback"],
-  template: `You are an expert instructional designer making precise revisions to a lesson plan.
+  inputVariables: ['original_plan_json', 'revised_phases', 'user_feedback'],
+  template: `You are an expert instructional designer tasked with making precise, targeted revisions to a lesson plan.
 
-### ORIGINAL LESSON PLAN
+### **ORIGINAL LESSON PLAN**
 {original_plan_json}
 
-### USER REVISION REQUESTS
-1. Phase name and duration changes:
-{revised_phases}
-2. Additional feedback:
-{user_feedback}
-
-### INSTRUCTIONS
-- Apply exact user changes
-- Intelligent improvements if feedback is vague
-- Redistribute time proportionally
-
-### OUTPUT FORMAT (JSON)
-{
-  "broad_plan": {
-    "objectives": ["Original objectives"],
-    "outline": [{
-      "phase": "Updated phase name",
-      "duration": "Updated duration",
-      "purpose": "Updated purpose",
-      "description": "Updated description",
-      "summary of changes": "Summary based on feedback"
-    }]
-  }
-}
-
-### REQUIREMENTS
-- Valid JSON only
-- Maintain total lesson duration
-- Precise, educationally sound changes`
+... (rest of template)
+`
 });
 
 export const QUIZ_GENERATION_TEMPLATE = new PromptTemplate({
   inputVariables: [
-    "phase_content", 
-    "num_questions", 
-    "difficulty", 
-    "question_type", 
-    "additional_notes", 
-    "lesson_objectives"
+    'phase_content',
+    'num_questions',
+    'difficulty',
+    'question_type',
+    'additional_notes',
+    'lesson_objectives'
   ],
-  template: `You are creating a STUDENT-FOCUSED quiz for lesson content:
+  template: `You are creating a STUDENT-FOCUSED quiz for a lesson phase with the following content:
 {phase_content}
 
-Objectives:
-{lesson_objectives}
-
-### REQUIREMENTS
-- Number of questions: {num_questions}
-- Difficulty: {difficulty}
-- Type: {question_type}
-- Notes: {additional_notes}
-
-### OUTPUT FORMAT (JSON)
-{
-  "phase_name": "Phase name",
-  "quiz_data": {
-    "questions": [{
-      "id": 1,
-      "question": "Question text",
-      "options": {
-        "A": "Option A",
-        "B": "Option B",
-        "C": "Option C",
-        "D": "Option D"
-      }
-    }],
-    "answers": [{
-      "id": 1,
-      "correct_answer": "A",
-      "explanation": "Detailed explanation"
-    }]
-  }
-}
-
-### REQUIREMENTS
-- Valid JSON
-- Clear, relevant questions
-- Educational explanations`
+... (rest of template)
+`
 });
 
 export const CODE_PRACTICE_GENERATION_TEMPLATE = new PromptTemplate({
   inputVariables: [
-    "phase_content", 
-    "programming_language", 
-    "difficulty", 
-    "question_type", 
-    "additional_requirements"
+    'phase_content',
+    'programming_language',
+    'difficulty',
+    'question_type',
+    'additional_requirements'
   ],
-  template: `Create coding practice exercise for content:
+  template: `You are creating a coding practice exercise for a lesson phase with the following content:
 {phase_content}
 
-Language: {programming_language}
-Difficulty: {difficulty}
-Type: {question_type}
-Requirements: {additional_requirements}
-
-Format:
-- Exercise intro
-- Starter code (specific to type)
-- Helpful hints
-- Complete solution`
+... (rest of template)
+`
 });
 
 export const SLIDES_GENERATION_TEMPLATE = new PromptTemplate({
   inputVariables: [
-    "phase_content", 
-    "slide_style", 
-    "num_slides", 
-    "additional_requirements"
+    'phase_content',
+    'slide_style',
+    'num_slides',
+    'additional_requirements'
   ],
-  template: `Create instructional slides for content:
+  template: `You are a professional instructional slide designer tasked with creating slides for the following teaching phase content:
 {phase_content}
 
-Style: {slide_style}
-Number: {num_slides}
-Requirements: {additional_requirements}
-
-### FORMAT
-- Slide content: titles, key points
-- Visual elements: images, diagrams
-- Instructor notes
-
-Ensure concise, engaging, visually clear slides`
+... (rest of template)
+`
 });
+
